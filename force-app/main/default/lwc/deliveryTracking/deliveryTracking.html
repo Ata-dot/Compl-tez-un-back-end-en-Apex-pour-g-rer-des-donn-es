@@ -1,0 +1,26 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-21-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Delivery Tracking">
+        <div class="slds-m-around_medium">
+            <lightning-button label="Refresh" onclick={loadLivraisons}></lightning-button>
+        </div>
+        <template if:true={livraisons}>
+            <lightning-datatable
+            data={livraisons}
+            columns={columns}
+            key-field="id">
+            hide-checkbox-column="true"
+            >
+            </lightning-datatable>
+        </template>
+    <template if:true={error}>
+        <div class="slds-m-around_medium">{error}</div>
+        </template>
+    </lightning-card>
+</template>

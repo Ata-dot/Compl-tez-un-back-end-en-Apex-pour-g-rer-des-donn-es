@@ -1,0 +1,65 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-17-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title="Lancer la Livraison">
+        <div class="slds-p-around_medium">
+            
+            <!-- Affichage des détails de la commande -->
+            <template if:true={order}>
+                <p><strong>Commande :</strong> {order.OrderNumber}</p>
+                <p><strong>Statut :</strong> {order.Status}</p>
+
+                <!-- Liste déroulante pour sélectionner un transporteur -->
+                <lightning-combobox
+                    name="transporter"
+                    label="Choisissez un transporteur"
+                    value={selectedTransporter}
+                    options={transporters}
+                    onchange={handleTransporterChange}>
+                </lightning-combobox>
+
+                <!-- Bouton pour lancer la livraison -->
+                <lightning-button
+                    label="Lancer la livraison"
+                    variant="brand"
+                    onclick={handleLaunchDelivery}
+                    class="slds-m-top_medium">
+                </lightning-button>
+
+                <!-- Affichage des informations de livraison -->
+                <template if:true={delivery}>
+                    <div class="slds-m-top_medium slds-box slds-theme_shade">
+                        <p><strong>Statut de livraison :</strong> {delivery.Status__c}</p>
+                        <p><strong>Date d'expédition :</strong> {delivery.ShippedDate__c}</p>
+                        <p><strong>Date estimée :</strong> {delivery.EstimatedDeliveryDate__c}</p>
+
+                        <template if:true={isDeliveryInProgress}>
+                            <lightning-button
+                                label="Marquer comme reçue"
+                                variant="success"
+                                onclick={handleMarkAsReceived}
+                                class="slds-m-top_medium">
+                            </lightning-button>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Message si la commande n'a pas encore été expédiée -->
+                <template if:false={delivery}>
+                    <p class="slds-text-color_destructive slds-m-top_medium">Cette commande n'a pas encore été expédiée.</p>
+                </template>
+
+            </template>
+
+            <!-- Message de chargement si les détails de la commande ne sont pas encore récupérés -->
+            <template if:false={order}>
+                <p>Chargement des détails de la commande...</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
